@@ -6,9 +6,9 @@ if __name__ == "__main__":
 	argparser = argparse.ArgumentParser(description = "Parse clip csv file and validate each entry")
 	argparser.add_argument("inputFilename")
 	argparser.add_argument("--validoutputfilename", default="valid.csv", help="destination for valid ids",
-							dest="validOutputFilename")
+							dest="validOutputFilename",metavar="Optional valid output filename")
 	argparser.add_argument("--invalidoutputfilename", default="invalid.csv", help="destination for invalid ids",
-							dest="invalidOutputFilename")
+							dest="invalidOutputFilename", metavar="Optional invalid output filename")
 
 
 	args = argparser.parse_args()
