@@ -21,6 +21,8 @@ class ClipParser:
 		self.validIDs = []
 		self.invalidIDs = []
 
+		if self.validFilename == self.invalidFilename:
+			raise ClipParserWriteError("you can't have valid file and invalid file point to same location")
 
 	def parseTitleRow(self, row):
 		for item in row:
@@ -28,7 +30,7 @@ class ClipParser:
 
 		for column in self.requiredColumns:
 			if column not in self.indexDict:
-				throw(ReadError("Missing required column: " + column))
+				raise ClipParserReadError("Missing required column: " + column)
 
 
 	def ifRowValid(self, row):
@@ -48,9 +50,9 @@ class ClipParser:
 				result = False
 			return result
 		except ValueError:
-			throw(ClipParserReadError("Can not convert field to integer: " + str(row)))
+			raise ClipParserReadError("Can not convert field to integer: " + str(row))
 		except IndexError:
-			throw(ClipParserReadError("Invalid row: " + str(row)))
+			raise ClipParserReadError("Invalid row: " + str(row))
 
 
 	def validInputFile(self):
@@ -67,9 +69,9 @@ class ClipParser:
 					else:
 						self.invalidIDs.append([clipid])
 		except OSError:
-			throw(ClipParserReadError("filename " + self.inputFilename + " is invalid"))
+			raise ClipParserReadError("filename " + self.inputFilename + " is invalid")
 		except IndexError:
-			throw(ClipParserReadError("Invalid row"))
+			raise ClipParserReadError("Invalid row")
 
 
 	def writeOutputFile(self):
@@ -82,7 +84,7 @@ class ClipParser:
 				invalidFileWritter = csv.writer(invalidIDFile)
 				invalidFileWritter.writerows(self.invalidIDs)
 		except OSError:
-			throw(ClipParserWriteError("Cannot write to desinated location"))
+			raise ClipParserWriteError("Cannot write to desinated location")
 
 	def parse(self):
 		self.validInputFile()

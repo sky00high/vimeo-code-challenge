@@ -19,7 +19,8 @@ if __name__ == "__main__":
 							invalidFilename = args.invalidOutputFilename)
 
 		parser.parse()
-	except ClipParserReadError:
-		print("Read error")
-	except ClipParserWriteError:
-		print("write error")
+	except ClipParserReadError as e:
+		print("Read error: " + str(e))
+
+	except ClipParserWriteError as e:
+		print("write error: " + str(e))
